@@ -21,6 +21,12 @@ There is a main base service that is extended by each resource service.
 
 The LOTR SDK could be improved by adding 
 - more tests (unit and integration)
-- more documentation
-- more examples
-
+- better documentation
+- some examples
+- support to fetch different resources from the same method (for example, 
+  `getOneById` could return a book and its chapters)
+  something like MikroORM does with `populate` method
+- maybe add rate limiting and caching 
+- stats and metrics (for example, how many requests are made to the API)
+- add a logger
+- better error handling

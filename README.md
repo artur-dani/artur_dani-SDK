@@ -17,8 +17,9 @@ npm i artur_dani-sdk
 You need to register [here](https://the-one-api.dev/) for an api key in order to use the sdk
 
 
-Using this package with typescript is where the real power comes from. There is typing and overloading for nearly every
-method.
+This SDK is better used with TypeScript, but it can be used with JavaScript as well.
+
+```ts
 
 ```typescript
 import { LotrSdk } from 'artur_dani-sdk'
@@ -29,12 +30,15 @@ const client = new LotrSdk(apiKey)
 const book = await client.books.getOneById('id')
 // or 
 const books = await client.books.list()
+
+// you can related resources
+const chapters = await client.books.getChaptersByBookId('id')
 ```
 
 
 ## Tests
 
-Test are made with jest and you can run them like so
+Test are made with jest and you can run them like:
 
 ```sh
 yarn test
