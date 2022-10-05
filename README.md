@@ -31,7 +31,7 @@ const book = await client.books.getOneById('id')
 // or 
 const books = await client.books.list()
 
-// you can related resources
+// you can get related resources
 const chapters = await client.books.getChaptersByBookId('id')
 ```
 
