@@ -37,11 +37,11 @@
   "size-limit": [
     {
       "path": "dist/artur_dani-sdk.cjs.production.min.js",
-      "limit": "10 KB"
+      "limit": "20 KB"
     },
     {
       "path": "dist/artur_dani-sdk.esm.js",
-      "limit": "10 KB"
+      "limit": "20 KB"
     }
   ],
   "devDependencies": {

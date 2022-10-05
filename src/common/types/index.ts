@@ -7,9 +7,21 @@ export interface ApiResponse<T> {
   pages: number
 }
 
+interface FilterOptions {
+  filterBy: string;
+  equalTo?: string;
+  negate?: boolean;
+}
+
+interface SortOptions {
+  sortBy: string;
+  order: 'asc' | 'desc';
+}
+
 export interface RequestOptions {
-  limit?: number
-  page?: number
-  offset?: number
-  sort?: 'asc' | 'desc'
+  limit?: number;
+  page?: number;
+  offset?: number;
+  sort?: SortOptions;
+  filter?: FilterOptions;
 }
