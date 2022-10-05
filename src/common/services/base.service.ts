@@ -9,11 +9,10 @@ export abstract class BaseService<T> {
   }
 
   async list(options?: RequestOptions): Promise<ApiResponse<T>> {
-    const response = await this.client.request<ApiResponse<T>>(this._path, {
-      params: {
-        ...(options || {}),
-      },
-    })
+    const response = await this.client.request<ApiResponse<T>>(
+      this._path,
+      options
+    );
 
     return response
   }
