@@ -23,18 +23,18 @@ export class ApiClient {
 
   async request<T>(url: string, options?: RequestOptions): Promise<T> {
     const params = this._getParams(options);
-    console.log({ params });
+    console.log({ params, url: `${url}${params}` })
 
     try {
-      const response = await this.axiosInstance?.request({
-        url: `${url}${params}`,
-        method: 'GET',
+      const response = await this.axiosInstance?.get(url, {
+        params,
       });
+      
 
-      return response?.data;
+      return response?.data
     } catch (error) {
-      console.log(error);
-      throw error;
+      console.log(error)
+      throw error
     }
   }
 
@@ -46,55 +46,48 @@ export class ApiClient {
     return value;
   }
 
-  private _getParams(options?: RequestOptions): string {
-    if (!options) return '';
+  private _getParams(options?: RequestOptions): Record<string, string> {
+    const params: Record<string, any> = {};
+    if (!options) return {};
 
     const { limit, page, offset, sort, filters } = options;
-    const params = [];
 
     if (limit) {
-      params.push(`limit=${limit}`);
+      params.limit = limit;
     }
 
     if (page) {
-      params.push(`page=${page}`);
+      params.page = page;
     }
 
     if (offset) {
-      params.push(`offset=${offset}`);
+      params.offset = offset;
     }
 
     if (sort) {
-      params.push(`sort=${sort.sortBy}:${sort.order}`);
+      params.sort = `${sort.sortBy}:${sort.order}`;
     }
 
     if (filters) {
-      const filterParams = (
-        Object.keys(filters) as Array<keyof typeof filters>
-      ).map((key) => {
-        const filter = filters[key];
-        const operator = FilterOperators[key];
+      ;(Object.keys(filters) as Array<keyof typeof filters>).forEach((key) => {
+        const filter = filters[key]
+        const operator = FilterOperators[key]
 
         if (!filter?.value) {
-          return `${filter?.field}`;
+          return
         }
 
-        if (
-          key === FilterKeyEnum.REGEX_MATCH ||
-          key === FilterKeyEnum.REGEX_NOT_MATCH
-        ) {
-          return `${filter.field}${operator}/${filter.value}/i`;
+        if (key === FilterKeyEnum.REGEX_MATCH || key === FilterKeyEnum.REGEX_NOT_MATCH) {
+          return (params[`${filter.field}${operator}`] = filter.value)
         }
 
-        const value = this._getParamValue(filter?.value);
-        const field = filter?.field;
+        const value = this._getParamValue(filter?.value)
+        const field = filter?.field
 
-        return `${field}${operator}${value}`;
-      });
-
-      params.push(`${filterParams.join('&')}`);
+        return (params[`${field}${operator}`] = value)
+      })
     }
 
-    return params.length ? `?${params.join('&')}` : '';
+    return  params
   }
 }
