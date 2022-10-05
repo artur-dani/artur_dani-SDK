@@ -1,19 +1,19 @@
-import { when } from 'jest-when';
-import { ApiResponse } from '../common/types';
-import { ApiClient } from '../utils/ApiClient';
-import { Character } from './character.interface';
-import { CharacterService } from './character.service';
+import { when } from 'jest-when'
+import { ApiResponse } from '../common/types'
+import { ApiClient } from '../utils/ApiClient'
+import { Character } from './character.interface'
+import { CharacterService } from './character.service'
 
-const requestSpy = jest.fn();
+const requestSpy = jest.fn()
 
 describe('character service', () => {
-  let service: CharacterService;
-  const mockedClient = new ApiClient('123');
+  let service: CharacterService
+  const mockedClient = new ApiClient('123')
 
   beforeEach(async () => {
-    mockedClient.request = requestSpy;
-    service = new CharacterService(mockedClient);
-  });
+    mockedClient.request = requestSpy
+    service = new CharacterService(mockedClient)
+  })
 
   describe('list', () => {
     it('should list all characters', async () => {
@@ -21,25 +21,23 @@ describe('character service', () => {
         .calledWith('character', {
           params: {},
         })
-        .mockResolvedValue(mockeResponse());
+        .mockResolvedValue(mockeResponse())
 
-      const response = await service.list();
-      expect(response).toEqual(mockeResponse());
-      expect(requestSpy).toBeCalled();
-    });
-  });
+      const response = await service.list()
+      expect(response).toEqual(mockeResponse())
+      expect(requestSpy).toBeCalled()
+    })
+  })
 
   describe('getOneById', () => {
     it('works as expected', async () => {
-      when(requestSpy)
-        .calledWith('character/111')
-        .mockResolvedValue(mockeResponse());
+      when(requestSpy).calledWith('character/111').mockResolvedValue(mockeResponse())
 
-      expect(await service.getOneById('111')).toEqual(mockeResponse().docs[0]);
-      expect(requestSpy).toBeCalled();
-    });
-  });
-});
+      expect(await service.getOneById('111')).toEqual(mockeResponse().docs[0])
+      expect(requestSpy).toBeCalled()
+    })
+  })
+})
 
 const mockeResponse = (): ApiResponse<Character> => {
   return {
@@ -76,5 +74,5 @@ const mockeResponse = (): ApiResponse<Character> => {
     page: 1,
     pages: 5,
     total: 5,
-  };
-};
+  }
+}

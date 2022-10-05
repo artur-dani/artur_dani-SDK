@@ -1,1 +1,1 @@
-export * from './LotrSdk';
+export * from './LotrSdk'

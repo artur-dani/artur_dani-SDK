@@ -1,19 +1,19 @@
-import { when } from 'jest-when';
-import { ApiResponse } from '../common/types';
-import { ApiClient } from '../utils/ApiClient';
-import { Quote } from './quote.interface';
-import { QuoteService } from './quote.service';
+import { when } from 'jest-when'
+import { ApiResponse } from '../common/types'
+import { ApiClient } from '../utils/ApiClient'
+import { Quote } from './quote.interface'
+import { QuoteService } from './quote.service'
 
-const requestSpy = jest.fn();
+const requestSpy = jest.fn()
 
 describe('quote service', () => {
-  let service: QuoteService;
-  const mockedClient = new ApiClient('123');
+  let service: QuoteService
+  const mockedClient = new ApiClient('123')
 
   beforeEach(async () => {
-    mockedClient.request = requestSpy;
-    service = new QuoteService(mockedClient);
-  });
+    mockedClient.request = requestSpy
+    service = new QuoteService(mockedClient)
+  })
 
   describe('list', () => {
     it('should list all quotes', async () => {
@@ -21,25 +21,23 @@ describe('quote service', () => {
         .calledWith('quote', {
           params: {},
         })
-        .mockResolvedValue(mockeResponse());
+        .mockResolvedValue(mockeResponse())
 
-      const response = await service.list();
-      expect(response).toEqual(mockeResponse());
-      expect(requestSpy).toBeCalled();
-    });
-  });
+      const response = await service.list()
+      expect(response).toEqual(mockeResponse())
+      expect(requestSpy).toBeCalled()
+    })
+  })
 
   describe('getOneById', () => {
     it('works as expected', async () => {
-      when(requestSpy)
-        .calledWith('quote/111')
-        .mockResolvedValue(mockeResponse());
+      when(requestSpy).calledWith('quote/111').mockResolvedValue(mockeResponse())
 
-      expect(await service.getOneById('111')).toEqual(mockeResponse().docs[0]);
-      expect(requestSpy).toBeCalled();
-    });
-  });
-});
+      expect(await service.getOneById('111')).toEqual(mockeResponse().docs[0])
+      expect(requestSpy).toBeCalled()
+    })
+  })
+})
 
 const mockeResponse = (): ApiResponse<Quote> => {
   return {
@@ -64,5 +62,5 @@ const mockeResponse = (): ApiResponse<Quote> => {
     page: 1,
     pages: 5,
     total: 5,
-  };
-};
+  }
+}
